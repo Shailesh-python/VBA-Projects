@@ -1,0 +1,31 @@
+
+Function UDF_ExtractEmail(Text_Range As Range, _
+                          Delimiter_Character As String, _
+                          Pattern As String)
+                          
+' DocString : Creating a function to extract specific domain emailid from number of emailids
+' Using VBA.Split to split the text range in number of elements on the basis of some delimiter
+' Hold the result of split in a undefined shaped array
+' Loop through each elements of array and append it in empty string
+' if the element contains similar domain name
+
+' How to use :
+' 1. Save the script in module
+' 2. Type : =UDF_ExtractEmail(A2,";","@domainname.com")
+
+    Dim ArrayElements() As String
+    Dim Result_Text As String
+    Result_Text = ""
+    
+    ArrayElements() = VBA.Split(Text_Range.Value, Delimiter:=Delimiter_Character)
+
+    Dim i As Integer
+    For i = LBound(ArrayElements) To UBound(ArrayElements)
+        If ArrayElements(i) Like "*" & Pattern Then
+            Result_Text = ArrayElements(i) & Delimiter_Character & Result_Text
+        End If
+    Next i
+    
+    UDF_ExtractEmail = Result_Text
+
+End Function
